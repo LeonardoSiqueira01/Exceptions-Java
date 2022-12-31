@@ -13,8 +13,8 @@ public class Reservation {
 
 	public Reservation(Integer roomNumber, Date checkin, Date checkout) {
 		this.roomNumber = roomNumber;
-		Checkin = checkin;
-		Checkout = checkout;
+		this.Checkin = checkin;
+		this.Checkout = checkout;
 	}
 
 	public Integer getRoomNumber() {
@@ -38,9 +38,16 @@ public class Reservation {
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	}
 
-	public void updateDates(Date CheckIn, Date CheckOut) {
+	public String updateDates(Date CheckIn, Date CheckOut) {
+		Date now = new Date();
+		if (CheckIn.before(now) || CheckOut.before(now)) {
+			return "Reservation dates for update must be future dates";
+		}  if (!CheckOut.after(CheckIn)) {
+			return "Check-out date must be after check-in date ";
+		}
 		this.Checkin = CheckIn;
 		this.Checkout = CheckOut;
+		return null;
 	}
 
 	@Override
